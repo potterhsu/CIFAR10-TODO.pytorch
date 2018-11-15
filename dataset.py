@@ -30,7 +30,10 @@ class Dataset(torch.utils.data.Dataset):
         # TODO: CODE BEGIN
         # raise NotImplementedError
         image = self._cifar10[index][0]
-        image = self.preprocess_test(image)
+        if self._cifar10.train == 1:
+            image = self.preprocess(image)
+        else:
+            image = self.preprocess_test(image)
         label = self._cifar10[index][1]
         return image, label
         # TODO: CODE END
