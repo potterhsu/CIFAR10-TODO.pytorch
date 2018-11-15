@@ -4,7 +4,7 @@ class Config(object):
 
 class TrainingConfig(object):
     Batch_Size = 128
-    Learning_Rate = 1
+    Learning_Rate = 1e-3
     Momentum = 0.9
     Weight_Decay = 0.0005
     EveryStepsToCheckLoss = 20
