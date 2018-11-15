@@ -30,7 +30,7 @@ class Dataset(torch.utils.data.Dataset):
         # TODO: CODE BEGIN
         # raise NotImplementedError
         image = self._cifar10[index][0]
-        image = self.preprocess(image)
+        image = self.preprocess_test(image)
         label = self._cifar10[index][1]
         return image, label
         # TODO: CODE END
@@ -48,3 +48,12 @@ class Dataset(torch.utils.data.Dataset):
         image = transform(image)
         return image
         # TODO: CODE END
+
+    @staticmethod
+    def preprocess_test(image: PIL.Image.Image) -> Tensor:
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+        ])
+        image = transform(image)
+        return image

@@ -26,13 +26,13 @@ def _train(path_to_data_dir: str, path_to_checkpoints_dir: str):
     model = Model()
     if Config.Device == 'gpu':
         model.cuda()
-    model.load('checkpoints/model-201811160032-1000.pth')
+    model.load('checkpoints/model-201811160142-3000.pth')
 
     optimizer = optim.SGD(model.parameters(), lr=TrainingConfig.Learning_Rate, momentum=TrainingConfig.Momentum,
                           weight_decay=TrainingConfig.Weight_Decay)
     # TODO: CODE END
 
-    step = 0+1000
+    step = 0+3000
     time_checkpoint = time.time()
     losses = deque(maxlen=100)
     should_stop = False

@@ -2,6 +2,7 @@ import argparse
 import os
 
 import torch
+import numpy as np
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
@@ -32,6 +33,7 @@ def _eval(path_to_checkpoint: str, path_to_data_dir: str, path_to_results_dir: s
     print('Start evaluating')
 
     with torch.no_grad():
+        confusion_matrix = np.zeros((10, 10))
         for batch_index, (images, labels) in enumerate(tqdm(dataloader)):
             if Config.Device == 'gpu':
                 images = images.cuda()
@@ -41,11 +43,19 @@ def _eval(path_to_checkpoint: str, path_to_data_dir: str, path_to_results_dir: s
             _, predictions = logits.max(dim=1)
             num_hits += (predictions == labels).sum().item()
 
+            # confusion matrix
+            for i in range(len(labels)):
+                confusion_matrix[labels[i], predictions[i]] += 1
+
         accuracy = num_hits / len(dataset)
         print(f'Accuracy = {accuracy:.4f}')
+        print(confusion_matrix)
 
-    with open(os.path.join(path_to_results_dir, 'accuracy.txt'), 'w') as fp:
-        fp.write(f'{accuracy:.4f}')
+    with open(os.path.join(path_to_results_dir, 'accuracy.txt'), 'a') as fp:
+        fp.write(f'{accuracy:.4f} with [{path_to_checkpoint}]\n')
+    with open(os.path.join(path_to_results_dir, 'visualization.txt'), 'a') as fp:
+        fp.write(f'{path_to_checkpoint}\n')
+        fp.write(f'{confusion_matrix}\n')
 
     print('Done')
 
@@ -61,7 +71,7 @@ if __name__ == '__main__':
         # path_to_checkpoint = args.checkpoint
         path_to_data_dir = args.data_dir
         path_to_results_dir = args.results_dir
-        path_to_checkpoint = 'checkpoints/model-201811160032-1000.pth'
+        path_to_checkpoint = 'checkpoints/model-201811160142-3000.pth'
         _eval(path_to_checkpoint, path_to_data_dir, path_to_results_dir)
 
     main()
