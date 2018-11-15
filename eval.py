@@ -71,7 +71,7 @@ if __name__ == '__main__':
         # path_to_checkpoint = args.checkpoint
         path_to_data_dir = args.data_dir
         path_to_results_dir = args.results_dir
-        path_to_checkpoint = 'checkpoints/model-201811160240-2000.pth'
+        path_to_checkpoint = 'checkpoints/model-201811160327-5000.pth'
         _eval(path_to_checkpoint, path_to_data_dir, path_to_results_dir)
 
     main()
