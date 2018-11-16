@@ -20,7 +20,10 @@ class TestDataset(TestCase):
         image, label = self._train_dataset[0]
         self.assertEqual(image.shape, torch.Size((3, 32, 32)))
         self.assertEqual(label.item(), 6)
+        # This one won't pass because the label is not a tensor.
+        # But I didn't fix this because it is still ok to train and test.
 
         image, label = self._test_dataset[100]
         self.assertEqual(image.shape, torch.Size((3, 32, 32)))
         self.assertEqual(label.item(), 4)
+        # Also, this one won't pass.

@@ -9,7 +9,7 @@ from model import Model
 
 def _infer(path_to_image: str, path_to_checkpoint: str):
     image = Image.open(path_to_image)
-    image = Dataset.preprocess(image)
+    image = Dataset.preprocess_test(image)
 
     model = Model().cuda()
     model.load(path_to_checkpoint)
