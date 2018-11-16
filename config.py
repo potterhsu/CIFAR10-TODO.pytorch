@@ -4,11 +4,10 @@ class Config(object):
 
 class TrainingConfig(object):
     Batch_Size = 128
-    Learning_Rate = 1e-3
-    Momentum = 0.9
-    Weight_Decay = 0.0005
+    Learning_Rate = 2.5e-4
     EveryStepsToCheckLoss = 20
     EveryStepsToSnapshot = 1000
+    StepToDecay = 7000
     StepToFinish = 10000
 
 

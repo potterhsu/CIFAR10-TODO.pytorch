@@ -30,16 +30,17 @@ class Dataset(torch.utils.data.Dataset):
         # TODO: CODE BEGIN
         # raise NotImplementedError
         image = self._cifar10[index][0]
-        if self._cifar10.train == 1:
-            image = self.preprocess(image)
+        if self._cifar10.train:
+            image = self.preprocess_train(image)
         else:
             image = self.preprocess_test(image)
         label = self._cifar10[index][1]
+        # return image, torch.LongTensor([label])
         return image, label
         # TODO: CODE END
 
     @staticmethod
-    def preprocess(image: PIL.Image.Image) -> Tensor:
+    def preprocess_train(image: PIL.Image.Image) -> Tensor:
         # TODO: CODE BEGIN
         # raise NotImplementedError
         transform = transforms.Compose([

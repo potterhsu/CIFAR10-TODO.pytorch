@@ -26,14 +26,11 @@ def _train(path_to_data_dir: str, path_to_checkpoints_dir: str):
     model = Model()
     if Config.Device == 'gpu':
         model.cuda()
-    model.load('checkpoints/model-201811160359-6000.pth')
 
-    # optimizer = optim.SGD(model.parameters(), lr=TrainingConfig.Learning_Rate, momentum=TrainingConfig.Momentum,
-    #                       weight_decay=TrainingConfig.Weight_Decay)
-    optimizer = optim.SGD(model.parameters(), lr=1e-4)
+    optimizer = optim.Adam(model.parameters(), lr=TrainingConfig.Learning_Rate)
     # TODO: CODE END
 
-    step = 0+6000
+    step = 0
     time_checkpoint = time.time()
     losses = deque(maxlen=100)
     should_stop = False
@@ -72,6 +69,10 @@ def _train(path_to_data_dir: str, path_to_checkpoints_dir: str):
             if step % TrainingConfig.EveryStepsToSnapshot == 0:
                 path_to_checkpoint = model.save(path_to_checkpoints_dir, step)
                 print(f'Model saved to {path_to_checkpoint}')
+
+            if step % TrainingConfig.StepToDecay == 0:
+                optimizer = optim.Adam(model.parameters(), lr=TrainingConfig.Learning_Rate/2)
+                print(f'Learning rate changed to {TrainingConfig.Learning_Rate/2}')
 
             if step == TrainingConfig.StepToFinish:
                 should_stop = True
