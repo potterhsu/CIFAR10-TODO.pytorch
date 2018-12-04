@@ -9,20 +9,25 @@ from torch.utils.data import DataLoader
 from dataset import Dataset
 from model import Model
 
+import torch.optim as optim
 
 def _train(path_to_data_dir: str, path_to_checkpoints_dir: str):
     os.makedirs(path_to_checkpoints_dir, exist_ok=True)
 
     # TODO: CODE BEGIN
-    raise NotImplementedError
+    #raise NotImplementedError
     # dataset = XXX
+    dataset = Dataset(path_to_data_dir, mode=Dataset.Mode.TRAIN)
     # dataloader = XXX
+    dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
     # TODO: CODE END
 
     # TODO: CODE BEGIN
-    raise NotImplementedError
+    #raise NotImplementedError
     # model = XXX
+    model = Model().cuda()
     # optimizer = XXX
+    optimizer = optim.SGD(model.parameters(),lr = 0.001, momentum = 0.9, weight_decay = 5e-4)
     # TODO: CODE END
 
     num_steps_to_display = 20
@@ -42,16 +47,21 @@ def _train(path_to_data_dir: str, path_to_checkpoints_dir: str):
             labels = labels.cuda()
 
             # TODO: CODE BEGIN
-            raise NotImplementedError
+            #raise NotImplementedError
             # logits = XXX
+            logits = model(images)
             # loss = XXX
+            loss = model.loss(logits, labels)
             # TODO: CODE END
 
             # TODO: CODE BEGIN
-            raise NotImplementedError
+            #raise NotImplementedError
             # optimizer.XXX
+            optimizer.zero_grad()
             # loss.XXX
+            loss.backward()
             # optimizer.XXX
+            optimizer.step()
             # TODO: CODE END
 
             losses.append(loss.item())

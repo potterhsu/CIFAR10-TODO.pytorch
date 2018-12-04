@@ -13,15 +13,19 @@ def _eval(path_to_checkpoint: str, path_to_data_dir: str, path_to_results_dir: s
     os.makedirs(path_to_results_dir, exist_ok=True)
 
     # TODO: CODE BEGIN
-    raise NotImplementedError
+    #raise NotImplementedError
     # dataset = XXX
+    dataset = Dataset(path_to_data_dir, Dataset.Mode.TEST)
     # dataloader = XXX
+    dataloader = DataLoader(dataset, batch_size=100, shuffle=False)
     # TODO: CODE END
 
     # TODO: CODE BEGIN
-    raise NotImplementedError
+    #raise NotImplementedError
     # model = XXX
+    model = Model().cuda()
     # model.XXX
+    model.load(path_to_checkpoint)
     # TODO: CODE END
 
     num_hits = 0
